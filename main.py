@@ -45,6 +45,10 @@ async def command_start_handler(message: Message):
 async def compare_recent_game_loop():
     last = get_recent_game()
 
+    if not last:
+        ap.update()
+        last = get_recent_game()
+
     while True:
         await asyncio.sleep(CHECK_INTERVAL)
 
