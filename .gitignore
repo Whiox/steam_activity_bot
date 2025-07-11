@@ -1,0 +1,12 @@
+.env
+
+.venv
+venv
+
+.idea
+idea
+
+.pycache
+.pyc
+
+save.json
