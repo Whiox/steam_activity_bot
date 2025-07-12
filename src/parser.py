@@ -1,3 +1,4 @@
+import logging
 import os
 
 from bs4 import BeautifulSoup
@@ -18,6 +19,9 @@ class AccountParser:
 
     def update(self):
         load_dotenv()
+
+        logging.info("Updating userdata")
+
         rec = requests.get(os.getenv("USER_LINK"))
 
         self.soup = BeautifulSoup(rec.text, 'html.parser')
@@ -56,3 +60,7 @@ class AccountParser:
 
         update_recent_game(recent_activity[0])
         update_games(recent_activity)
+
+
+ap = AccountParser()
+ap.update()

@@ -10,3 +10,6 @@ idea
 .pyc
 
 save.json
+
+logs
+logs/
