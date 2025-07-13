@@ -26,6 +26,9 @@ from src.save import get_games, get_username, get_last_2_week, get_recent_game
 from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv
 
+from src.metrics import requests_count, PUSHGW, registry
+from prometheus_client import push_to_gateway
+
 
 load_dotenv()
 
@@ -41,6 +44,14 @@ ap = AccountParser()
 @dp.message(CommandStart())
 async def command_start_handler(message: Message):
     logger.info(f"User {message.from_user.id} started command start")
+
+    requests_count.labels(command='start').inc()
+
+    push_to_gateway(
+        PUSHGW,
+        job="telegram_bot",
+        registry=registry,
+    )
 
     ap.update()
 
