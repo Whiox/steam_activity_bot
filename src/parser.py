@@ -24,6 +24,10 @@ class AccountParser:
 
         rec = requests.get(os.getenv("USER_LINK"))
 
+        if rec.status_code != 200:
+            logging.error(f"Userdata update failed, status code: {rec.status_code}")
+            return
+
         self.soup = BeautifulSoup(rec.text, 'html.parser')
 
         self.__parse_user_data()
