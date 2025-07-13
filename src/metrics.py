@@ -11,3 +11,10 @@ requests_count = Gauge(
     ['command'],
     registry=registry
 )
+
+parsing_count = Gauge(
+    'parsing_count',
+    'Parsing count',
+    ['status'],
+    registry=registry
+)
