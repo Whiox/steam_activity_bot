@@ -31,6 +31,10 @@ services:
       - "3100:3100"
     volumes:
       - ./loki-config.yaml:/etc/loki/local-config.yaml
+      - ./loki-index:/loki/index
+      - ./loki-cache:/loki/cache
+      - ./loki-chunks:/loki/chunks
+      - ./loki-compactor:/loki/compactor
 
   promtail:
     image: grafana/promtail:2.9.1
