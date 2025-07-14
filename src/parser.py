@@ -9,7 +9,7 @@ from prometheus_client import push_to_gateway
 
 from src.save import update_username, update_recent_game, update_games, update_last_2_week
 
-from src.metrics import parsing_count, PUSHGW, registry
+from src.metrics import parsing_count, PUSHGW, registry, USE_PROMETHEUS
 
 
 class AccountParser:
@@ -27,19 +27,23 @@ class AccountParser:
 
         rec = requests.get(os.getenv("USER_LINK"))
 
-        push_to_gateway(
-            PUSHGW,
-            job="telegram_bot",
-            registry=registry,
-        )
+        if USE_PROMETHEUS:
+
+            push_to_gateway(
+                PUSHGW,
+                job="telegram_bot",
+                registry=registry,
+            )
 
         if rec.status_code != 200:
             logging.error(f"Userdata update failed, status code: {rec.status_code}")
 
-            parsing_count.labels(status="error").inc()
+            if USE_PROMETHEUS:
+                parsing_count.labels(status="error").inc()
             return
 
-        parsing_count.labels(status="ok").inc()
+        if USE_PROMETHEUS:
+            parsing_count.labels(status="ok").inc()
 
         self.soup = BeautifulSoup(rec.text, 'html.parser')
 

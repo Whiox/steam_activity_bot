@@ -1,6 +1,10 @@
 from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
 import os
 
+
+USE_PROMETHEUS = os.getenv("USE_PROMETHEUS", False)
+
+
 PUSHGW = os.getenv("PUSHGATEWAY_URL", "http://pushgateway:9091")
 
 
